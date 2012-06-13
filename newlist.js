@@ -38,11 +38,11 @@ function createblock(data) {
 		$("<div></div>").text(data['ticketFilter.subject'])
 	)
 	.click(function() {
+		var n = data['ticketFilter.ticketNumber'].toString();
 		chrome.tabs.create({
-			url: "https://itsupport.grcc.edu:8443/ehelpdesk/ticket/edit2.glml?tid="+data['ticketFilter.ticketNumber,'],
+			url: "https://itsupport.grcc.edu:8443/ehelpdesk/ticket/edit2.glml?tid="+n,
 			active: true,
 		});
-	});
 	});
 	return e;
 }
