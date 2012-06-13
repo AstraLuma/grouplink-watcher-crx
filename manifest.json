@@ -1,0 +1,16 @@
+{
+  "name": "GroupLink Watcher",
+  "version": "0.1",
+  "manifest_version": 2,
+  "description": "Keeps an eye on GroupLink tickets",
+  "browser_action": {
+    "default_icon": "favicon.png"
+  },
+  "permissions": [
+    "https://itsupport.grcc.edu/",
+	"notifications"
+  ],
+  "background": {
+	"scripts": ["background.js"]
+  }
+}
