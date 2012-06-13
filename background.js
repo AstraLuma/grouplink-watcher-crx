@@ -1,6 +1,6 @@
 var FILTER_ID = "962";
 
-var JSON_URL = "https://itsupport.grcc.edu:8443/ehelpdesk/tf/ticketFilterStore.glml?filter=true&start=0&count=1&ticketFilterId="+FILTER_ID;
+var JSON_URL = "https://itsupport.grcc.edu:8443/ehelpdesk/tf/ticketFilterStore.glml?filter=true&ticketFilterId="+FILTER_ID;
 var PAGE_URL = "https://itsupport.grcc.edu:8443/ehelpdesk/tf/ticketFilterResults.glml?tfId="+FILTER_ID;
 
 var COLOR_EMPTY = "#080",
@@ -8,10 +8,13 @@ var COLOR_EMPTY = "#080",
 	COLOR_ERROR = "#FF0",
 	COLOR_WORKING = "#888";
 
+var last_filter_response = {};
+
 function update() {
 	var req = new XMLHttpRequest();
 	req.addEventListener("load", function(evt) {
 		var data = JSON.parse(req.response);
+		last_filter_response = data;
 		var nr = data.numRows;
 		chrome.browserAction.setBadgeText({text: nr.toString()});
 		if (nr) {
@@ -29,14 +32,8 @@ function update() {
 	req.send();
 }
 
-chrome.browserAction.onClicked.addListener(function(tab) {
-	chrome.tabs.create({
-		url: PAGE_URL,
-		active: true,
-	});
-});
 chrome.browserAction.setBadgeText({text: "..."});
 chrome.browserAction.setBadgeBackgroundColor({color: COLOR_WORKING});
 update();
 window.addEventListener("online", update);
-window.setInterval(update, 1*60*1000);
+window.setInterval(update, 5*60*1000);

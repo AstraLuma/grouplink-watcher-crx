@@ -4,7 +4,8 @@
   "manifest_version": 2,
   "description": "Keeps an eye on GroupLink tickets",
   "browser_action": {
-    "default_icon": "favicon.png"
+    "default_icon": "grouplink-small.png",
+	"default_popup": "newlist.html"
   },
   "permissions": [
     "https://itsupport.grcc.edu/",

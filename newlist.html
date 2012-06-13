@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>GL Ticket List</title>
+		<script src="jquery.min.js"></script>
+		<script src="newlist.js"></script>
+		<style>
+body {
+	width: 30em;
+	font-family: sans-serif;
+}
+.ticket {
+	border: black thin solid;
+	cursor: pointer;
+}
+.ticket span {
+	margin: 0.5em;
+}
+
+.ticket .priority {
+	display: block;
+	float: left;
+	background: black;
+	color: white;
+	padding: 0.5em;
+	border-radius: 1em;
+	font-weight: bold;
+}
+
+.ticket.P1 {	background: #FAA;	}
+.ticket.P2 {	background: #EE8;	}
+.ticket.P3 {	background: #7F7;	}
+.ticket.P4 {	background: #99F;	}
+.ticket.P5 {	background: #B7B;	}
+
+.ticket.P1 .priority {	background: #F11;	}
+.ticket.P2 .priority {	background: #BDBD00;	}
+.ticket.P3 .priority {	background: #00B700;	}
+.ticket.P4 .priority {	background: #44F;	}
+.ticket.P5 .priority {	background: #A0A;	}
+		</style>
+	</head>
+	<body>
+	<!--button id="update">Update</button-->
+	<div id="tickets"></div>
+	</body>
+</html>
