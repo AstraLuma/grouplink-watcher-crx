@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>GroupLink Watcher Options</title>
+	<script src="jquery.min.js"></script>
+	<script src="jsonstore.js"></script>
+	<script src="options.js"></script>
+	<link rel="stylesheet" type="text/css" href="options.css">
+</head>
+
+<body>
+	
+	<h1>GroupLink Watcher Options</h1>
+	
+	<table>
+		<tr>
+			<th><label for="filter">Filter ID:</label></th>
+			<td><input id="filter" placeholder="Number from URL" pattern="[0-9]+"></td>
+		</tr>
+		<tr>
+			<th><label for="polltime">Poll Time:</label></th>
+			<td><input id="polltime" placeholder="5" pattern="[0-9.]+"> minutes</td>
+		</tr>
+	</table>
+</body>
+</html>

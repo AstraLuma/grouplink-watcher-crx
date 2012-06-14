@@ -1,0 +1,21 @@
+
+body {
+	width:500px;
+	height:550px;
+	font-family:helvetica, arial, sans-serif;
+	margin:5px 20px 5px 20px;
+	font-size:90%;
+}
+
+h1 {
+}
+h1::before {
+	content: url(chrome://extension-icon/__MSG_@@extension_id__/64/1);
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 3px;
+}
+
+input.error {
+	background: #F77;
+}

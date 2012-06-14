@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>GL Ticket List</title>
-		<script src="jquery.min.js"></script>
-		<script src="newlist.js"></script>
-		<style>
 body {
 	width: 30em;
 	font-family: sans-serif;
@@ -38,10 +31,3 @@ body {
 .ticket.P3 .priority {	background: #00B700;	}
 .ticket.P4 .priority {	background: #44F;	}
 .ticket.P5 .priority {	background: #A0A;	}
-		</style>
-	</head>
-	<body>
-	<!--button id="update">Update</button-->
-	<div id="tickets"></div>
-	</body>
-</html>

@@ -5,13 +5,14 @@
   "description": "Keeps an eye on GroupLink tickets",
   "browser_action": {
     "default_icon": "grouplink-small.png",
-	"default_popup": "newlist.html"
+	"default_popup": "ticketlist.html"
   },
   "permissions": [
     "https://itsupport.grcc.edu/",
 	"notifications"
   ],
   "background": {
-	"scripts": ["background.js"]
-  }
+	"scripts": ["jsonstore.js", "background.js"]
+  },
+  "options_page": "options.html"
 }

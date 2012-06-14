@@ -1,19 +1,4 @@
-var FILTER_ID = "962";
-
-var JSON_URL = "https://itsupport.grcc.edu:8443/ehelpdesk/tf/ticketFilterStore.glml?filter=true&ticketFilterId="+FILTER_ID;
-var PAGE_URL = "https://itsupport.grcc.edu:8443/ehelpdesk/tf/ticketFilterResults.glml?tfId="+FILTER_ID;
-
 function getdata(callback, errback) {
-	/*var req = new XMLHttpRequest();
-	req.addEventListener("load", function(evt) {
-		var data = JSON.parse(req.response);
-		callback(data, evt);
-	});
-	req.addEventListener("error", function(evt) {
-		errback(evt);
-	});
-	req.open("GET", JSON_URL, true);
-	req.send();*/
 	callback(chrome.extension.getBackgroundPage().last_filter_response);
 }
 
