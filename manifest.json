@@ -1,6 +1,6 @@
 {
   "name": "GroupLink Watcher",
-  "version": "0.1",
+  "version": "0.3",
   "manifest_version": 2,
   "description": "Keeps an eye on GroupLink tickets",
   "browser_action": {
