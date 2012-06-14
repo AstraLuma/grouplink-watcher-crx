@@ -19,6 +19,17 @@ function getdata(callback, errback) {
 
 function createblock(data) {
 	var priority = data['ticketFilter.priority'].split(' ')[0][1];
+	
+	var building = data['ticketFilter.location'].split(' ')[0];
+	var roomtitle, room;
+	
+	roomtitle = data['ticketFilter.location'];
+	if (building == '-NONE') {
+		room = '';
+	} else {
+		room = building; //TODO: Get the room number
+	}
+	
 	var e = 
 	$("<div class='ticket'></div>")
 	.addClass('P'+priority)
@@ -29,6 +40,8 @@ function createblock(data) {
 		$("<div></div>").append(
 			$("<span></span>").text(data['ticketFilter.ticketNumber']),
 			$("<span></span>").text(data['ticketFilter.contact']),
+			$("<span></span>").text(room)
+				.attr('title', roomtitle),
 			$("<span></span>").text(data['ticketFilter.created'])
 		),
 		$("<div></div>").append(
