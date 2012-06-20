@@ -2,22 +2,41 @@ body {
 	width: 30em;
 	font-family: sans-serif;
 }
+
 .ticket {
 	border: black thin solid;
 	cursor: pointer;
+	padding: 0.2em;
 }
+
 .ticket span {
 	margin: 0.5em;
 }
 
-.ticket .priority {
-	display: block;
+.ticket span:first-child {
+	margin-left: 0;
+}
+
+.ticket > div:not(.sidebar) {
+	margin-left: 3.3em;
+}
+
+.ticket .sidebar {
 	float: left;
+	margin-right: 0.2em;
+	font-weight: bold;
+}
+
+.ticket .sidebar > div {
+}
+
+.ticket .priority {
 	background: black;
 	color: white;
 	padding: 0.5em;
 	border-radius: 1em;
 	font-weight: bold;
+	text-align: center;
 }
 
 .ticket.P1 {	background: #FAA;	}

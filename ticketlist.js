@@ -20,20 +20,24 @@ function createblock(data) {
 	.addClass('P'+priority)
 	.attr('title', data['ticketFilter.note'])
 	.append(
-		$("<span class='priority'></span>").text(priority)
-			.attr('title', data['ticketFilter.priority']),
-		$("<div></div>").append(
-			$("<span></span>").text(data['ticketFilter.ticketNumber']),
-			$("<span></span>").text(data['ticketFilter.contact']),
-			$("<span></span>").text(room)
-				.attr('title', roomtitle),
-			$("<span></span>").text(data['ticketFilter.created'])
+		$("<div class='sidebar'></div>").append(
+			$("<div></div>").text(data['ticketFilter.ticketNumber']),
+			$("<div class='priority'></div>").text(priority)
+				.attr('title', data['ticketFilter.priority'])
 		),
 		$("<div></div>").append(
-			$("<span></span>").text(data['ticketFilter.category']),
-			$("<span></span>").text(data['ticketFilter.catopt'])
-		),
-		$("<div></div>").text(data['ticketFilter.subject'])
+			$("<div></div>").append(
+				$("<span></span>").text(data['ticketFilter.contact']),
+				$("<span></span>").text(room)
+					.attr('title', roomtitle),
+				$("<span></span>").text(data['ticketFilter.created'])
+			),
+			$("<div></div>").append(
+				$("<span></span>").text(data['ticketFilter.category']),
+				$("<span></span>").text(data['ticketFilter.catopt'])
+			),
+			$("<div></div>").text(data['ticketFilter.subject'])
+		)
 	)
 	.click(function() {
 		var n = data['ticketFilter.ticketNumber'].toString();
