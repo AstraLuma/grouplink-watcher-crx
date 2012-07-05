@@ -16,9 +16,9 @@ function QueryUrl() {
 	return JSON_URL+jsonStorage.setDefault('filter', DEFAULT_FILTER);
 }
 
-var timout_id = null;
+var timeout_id = null;
 
-function update() {
+function update(callback) {
 	if (req && req.readyState != req.DONE) return;
 	window.clearTimeout(timeout_id);
 	req = new XMLHttpRequest();
@@ -41,10 +41,12 @@ function update() {
 	req.addEventListener("loadend", function(evt) {
 		req = false;
 		jsonStorage.setDefault('polltime', 5.0);
-		timout_id = window.setTimeout(update, jsonStorage.get('polltime')*60*1000);
+		timeout_id = window.setTimeout(update, jsonStorage.get('polltime')*60*1000);
+		if (callback) callback();
 	});
 	req.open("GET", QueryUrl(), true);
 	req.send();
+	chrome.browserAction.setBadgeBackgroundColor({color: COLOR_WORKING});
 }
 
 chrome.browserAction.setBadgeText({text: "..."});

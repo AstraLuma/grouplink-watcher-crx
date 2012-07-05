@@ -61,4 +61,11 @@ function update() {
 $(function() {
 	$('#update').click(update);
 	update();
+
+
+	$('#updatenow').click(function() {
+		chrome.extension.getBackgroundPage().update(function() {
+			update();
+		});
+	});
 });

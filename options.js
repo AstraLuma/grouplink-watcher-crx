@@ -1,9 +1,13 @@
+function update() {
+	return chrome.extension.getBackgroundPage().update();
+}
+
 $(function() {
 
 $('#filter').change(function() {
 	var v = $('#filter').val();
 	jsonStorage.set('filter', v);
-	chrome.extension.getBackgroundPage().update();
+	update();
 });
 
 $('#polltime').change(function() {
@@ -15,11 +19,13 @@ $('#polltime').change(function() {
 		var old = jsonStorage.get('polltime');
 		jsonStorage.set('polltime', v);
 		if (old > v) {
-			chrome.extension.getBackgroundPage().update();
+			update();
 		}
 	}
 });
 
 $('#filter').val(jsonStorage.get('filter'));
 $('#polltime').val(jsonStorage.get('polltime'));
+
+$('#updatenow').click(update);
 });
