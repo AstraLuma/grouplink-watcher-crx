@@ -16,8 +16,11 @@ function QueryUrl() {
 	return JSON_URL+jsonStorage.setDefault('filter', DEFAULT_FILTER);
 }
 
+var timout_id = null;
+
 function update() {
 	if (req && req.readyState != req.DONE) return;
+	window.clearTimeout(timeout_id);
 	req = new XMLHttpRequest();
 	req.addEventListener("load", function(evt) {
 		var data = JSON.parse(this.response);
@@ -38,7 +41,7 @@ function update() {
 	req.addEventListener("loadend", function(evt) {
 		req = false;
 		jsonStorage.setDefault('polltime', 5.0);
-		window.setTimeout(update, jsonStorage.get('polltime')*60*1000);
+		timout_id = window.setTimeout(update, jsonStorage.get('polltime')*60*1000);
 	});
 	req.open("GET", QueryUrl(), true);
 	req.send();
