@@ -41,7 +41,11 @@ function update(callback) {
 	req.addEventListener("loadend", function(evt) {
 		req = false;
 		jsonStorage.setDefault('polltime', 5.0);
-		timeout_id = window.setTimeout(update, jsonStorage.get('polltime')*60*1000);
+		time = jsonStorage.get('polltime');
+		chrome.alarms.create("update", {
+			delayInMinutes: time,
+			periodInMinutes: time,
+		});
 		if (callback) callback();
 	});
 	req.open("GET", QueryUrl(), true);
@@ -49,8 +53,12 @@ function update(callback) {
 	chrome.browserAction.setBadgeBackgroundColor({color: COLOR_WORKING});
 }
 
-chrome.browserAction.setBadgeText({text: "..."});
-chrome.browserAction.setBadgeBackgroundColor({color: COLOR_WORKING});
-window.addEventListener("online", update);
+chrome.alarms.onAlarm.addListener(update);
 
-update();
+chrome.runtime.onStartup.addListener(function() {
+	chrome.browserAction.setBadgeText({text: "..."});
+	chrome.browserAction.setBadgeBackgroundColor({color: COLOR_WORKING});
+	window.addEventListener("online", update);
+	
+	update();
+});
