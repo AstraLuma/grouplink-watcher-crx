@@ -6,8 +6,7 @@ $(function() {
 
 $('#filter').change(function() {
 	var v = $('#filter').val();
-	jsonStorage.set('filter', v);
-	update();
+	chrome.sync.set({filter: v}, update);
 });
 
 $('#polltime').change(function() {
@@ -16,16 +15,20 @@ $('#polltime').change(function() {
 		$('#polltime').addClass("error");
 	} else {
 		$('#polltime').removeClass("error");
-		var old = jsonStorage.get('polltime');
-		jsonStorage.set('polltime', v);
-		if (old > v) {
-			update();
-		}
+		chrome.sync.get('polltime', function(obj) {
+			chrome.sync.set({polltime: v}, function() {
+				if (obj.polltime > v) {
+					update();
+				}
+			});
+		});
 	}
 });
 
-$('#filter').val(jsonStorage.get('filter'));
-$('#polltime').val(jsonStorage.get('polltime'));
+chrome.sync.get(['filter', 'polltime'], function(obj) {
+	$('#filter').val(obj.filter);
+	$('#polltime').val(obj.polltime);
+});
 
 $('#updatenow').click(update);
 });

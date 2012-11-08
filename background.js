@@ -12,15 +12,14 @@ var last_filter_response = {};
 
 var req = false;
 
-function QueryUrl() {
-	return JSON_URL+jsonStorage.setDefault('filter', DEFAULT_FILTER);
+function QueryUrl(callback) {
+	chrome.storage.sync.get("filter", function(obj) {
+		callback(JSON_URL+obj.filter);
+	});
 }
-
-var timeout_id = null;
 
 function update(callback) {
 	if (req && req.readyState != req.DONE) return;
-	window.clearTimeout(timeout_id);
 	req = new XMLHttpRequest();
 	req.addEventListener("load", function(evt) {
 		var data = JSON.parse(this.response);
@@ -40,25 +39,34 @@ function update(callback) {
 	});
 	req.addEventListener("loadend", function(evt) {
 		req = false;
-		jsonStorage.setDefault('polltime', 5.0);
-		time = jsonStorage.get('polltime');
-		chrome.alarms.create("update", {
-			delayInMinutes: time,
-			periodInMinutes: time,
+		chrome.sync.get("polltime", function(obj) {
+			chrome.alarms.create("update", {
+				delayInMinutes: obj.polltime,
+				periodInMinutes: obj.polltime,
+			});
 		});
 		if (callback) callback();
 	});
-	req.open("GET", QueryUrl(), true);
-	req.send();
-	chrome.browserAction.setBadgeBackgroundColor({color: COLOR_WORKING});
+	QueryUrl(function(url) {
+		req.open("GET", url, true);
+		req.send();
+		chrome.browserAction.setBadgeBackgroundColor({color: COLOR_WORKING});
+	});
 }
 
 chrome.alarms.onAlarm.addListener(update);
 
+window.addEventListener("online", update); //FIXME: Replace with something compatible with event pages
+
+chrome.runtime.onInstalled.addListener(function() {
+	chrome.sync.set({
+		polltime: 5.0,
+		filter: DEFAULT_FILTER
+	});
+});
+
 chrome.runtime.onStartup.addListener(function() {
 	chrome.browserAction.setBadgeText({text: "..."});
 	chrome.browserAction.setBadgeBackgroundColor({color: COLOR_WORKING});
-	window.addEventListener("online", update);
-	
 	update();
 });
