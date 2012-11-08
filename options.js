@@ -6,7 +6,7 @@ $(function() {
 
 $('#filter').change(function() {
 	var v = $('#filter').val();
-	chrome.sync.set({filter: v}, update);
+	chrome.storage.sync.set({filter: v}, update);
 });
 
 $('#polltime').change(function() {
@@ -15,8 +15,8 @@ $('#polltime').change(function() {
 		$('#polltime').addClass("error");
 	} else {
 		$('#polltime').removeClass("error");
-		chrome.sync.get('polltime', function(obj) {
-			chrome.sync.set({polltime: v}, function() {
+		chrome.storage.sync.get('polltime', function(obj) {
+			chrome.storage.sync.set({polltime: v}, function() {
 				if (obj.polltime > v) {
 					update();
 				}
@@ -25,7 +25,7 @@ $('#polltime').change(function() {
 	}
 });
 
-chrome.sync.get(['filter', 'polltime'], function(obj) {
+chrome.storage.sync.get(['filter', 'polltime'], function(obj) {
 	$('#filter').val(obj.filter);
 	$('#polltime').val(obj.polltime);
 });

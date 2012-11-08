@@ -39,7 +39,7 @@ function update(callback) {
 	});
 	req.addEventListener("loadend", function(evt) {
 		req = false;
-		chrome.sync.get("polltime", function(obj) {
+		chrome.storage.sync.get("polltime", function(obj) {
 			chrome.alarms.create("update", {
 				delayInMinutes: obj.polltime,
 				periodInMinutes: obj.polltime,
@@ -54,19 +54,18 @@ function update(callback) {
 	});
 }
 
-chrome.alarms.onAlarm.addListener(update);
-
 window.addEventListener("online", update); //FIXME: Replace with something compatible with event pages
 
 chrome.runtime.onInstalled.addListener(function() {
-	chrome.sync.set({
-		polltime: 5.0,
+	chrome.storage.sync.set({
+		polltime: DEFAULT_TIME,
 		filter: DEFAULT_FILTER
 	});
+	chrome.alarms.onAlarm.addListener(update);
+	chrome.browserAction.setBadgeText({text: "..."});
+	chrome.browserAction.setBadgeBackgroundColor({color: COLOR_WORKING});
 });
 
 chrome.runtime.onStartup.addListener(function() {
-	chrome.browserAction.setBadgeText({text: "..."});
-	chrome.browserAction.setBadgeBackgroundColor({color: COLOR_WORKING});
 	update();
 });
