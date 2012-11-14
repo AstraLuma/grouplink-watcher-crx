@@ -22,7 +22,12 @@ function update(callback) {
 	if (req && req.readyState != req.DONE) return;
 	req = new XMLHttpRequest();
 	req.addEventListener("load", function(evt) {
-		var data = JSON.parse(this.response);
+		var data;
+		if (this.responseType == "json") {
+			data = this.response;
+		} else {
+			data = JSON.parse(this.response);
+		}
 		last_filter_response = data;
 		var nr = data.numRows;
 		chrome.browserAction.setBadgeText({text: nr.toString()});
@@ -47,6 +52,7 @@ function update(callback) {
 		});
 		if (callback) callback();
 	});
+	req.responseType = "json";
 	QueryUrl(function(url) {
 		req.open("GET", url, true);
 		req.send();
