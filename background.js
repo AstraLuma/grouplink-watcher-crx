@@ -18,6 +18,29 @@ function QueryUrl(callback) {
 	});
 }
 
+var Badge = {
+		setTickets: function(nr) {
+			chrome.browserAction.setBadgeText({text: nr.toString()});
+			if (nr) {
+				chrome.browserAction.setBadgeBackgroundColor({color: COLOR_ITEMS});
+			} else {
+				chrome.browserAction.setBadgeBackgroundColor({color: COLOR_EMPTY});
+			}
+		},
+		setError: function() {
+			chrome.browserAction.setBadgeText({text: "!!"});
+			chrome.browserAction.setBadgeBackgroundColor({color: COLOR_ERROR});
+		},
+		setWorking: function() {
+			chrome.browserAction.setBadgeBackgroundColor({color: COLOR_WORKING});
+			chrome.browserAction.getBadgeText({}, function(text) {
+				if (!text) {
+					chrome.browserAction.setBadgeText({text: "..."});
+				}
+			});
+		}
+};
+
 function update(callback) {
 	if (req && req.readyState != req.DONE) return;
 	req = new XMLHttpRequest();
@@ -26,21 +49,19 @@ function update(callback) {
 		if (this.responseType == "json") {
 			data = this.response;
 		} else {
-			data = JSON.parse(this.response);
+			try {
+				data = JSON.parse(this.response);
+			} catch(err) {
+				Badge.setError();
+				throw err;
+			}
 		}
 		last_filter_response = data;
-		var nr = data.numRows;
-		chrome.browserAction.setBadgeText({text: nr.toString()});
-		if (nr) {
-			chrome.browserAction.setBadgeBackgroundColor({color: COLOR_ITEMS});
-		} else {
-			chrome.browserAction.setBadgeBackgroundColor({color: COLOR_EMPTY});
-		}
+		Badge.setTickets(data.numRows);
 	});
 	req.addEventListener("error", function(evt) {
 		console.error(this);
-		chrome.browserAction.setBadgeText({text: "!!"});
-		chrome.browserAction.setBadgeBackgroundColor({color: COLOR_ERROR});
+		Badge.setError();
 	});
 	req.addEventListener("loadend", function(evt) {
 		req = false;
@@ -68,8 +89,7 @@ chrome.runtime.onInstalled.addListener(function() {
 		filter: DEFAULT_FILTER
 	});
 	chrome.alarms.onAlarm.addListener(update);
-	chrome.browserAction.setBadgeText({text: "..."});
-	chrome.browserAction.setBadgeBackgroundColor({color: COLOR_WORKING});
+	Badge.setWorking();
 });
 
 chrome.runtime.onStartup.addListener(function() {
