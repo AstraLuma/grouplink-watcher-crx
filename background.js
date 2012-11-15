@@ -43,6 +43,7 @@ var Badge = {
 
 function update(callback) {
 	if (req && req.readyState != req.DONE) return;
+	Badge.setWorking();
 	req = new XMLHttpRequest();
 	req.addEventListener("load", function(evt) {
 		var data;
@@ -77,7 +78,6 @@ function update(callback) {
 	QueryUrl(function(url) {
 		req.open("GET", url, true);
 		req.send();
-		chrome.browserAction.setBadgeBackgroundColor({color: COLOR_WORKING});
 	});
 }
 
@@ -89,7 +89,7 @@ chrome.runtime.onInstalled.addListener(function() {
 		filter: DEFAULT_FILTER
 	});
 	chrome.alarms.onAlarm.addListener(update);
-	Badge.setWorking();
+	update();
 });
 
 chrome.runtime.onStartup.addListener(function() {
